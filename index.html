@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Enforcing Data Protection in Solid - PIDSKG '22</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="shower/themes/material/styles/styles.css">
+    <style>
+        .shower {
+            --slide-ratio: calc(16 / 9);
+            --color-key: #1E64C8;
+            font: 24px/2 'UGent Panno Text', 'Roboto', sans-serif !important;
+        }
+
+        h2.title {
+            color: #1E64C8;
+        }
+
+        b {
+            color: #1E64C8;
+        }
+
+        small {
+            font-size: 0.5em;
+        }
+
+        .logo-slide {
+            bottom: 1.5em !important;
+            right: 1.5em !important;
+        }
+
+        img.icon {
+            height: 5em;
+            margin-top: 2em;
+            color: #1E64C8;
+        }
+
+        a {
+            color: #1E64C8;
+        }
+
+        .unset-margin-bottom {
+            margin-bottom: 0 !important;
+        }
+    </style>
+</head>
+
+<body class="shower list">
+
+    <header class="caption">
+        <small style="color: white"><a href="https://consentworkshop.com/">Thesis Defense</a> &bullet; Ghent, BE &bullet; June 24, 2022</small>
+        <h1>Enforcing Data Protection in Solid:<br/> A Policy-Oriented Architecture</h1>
+        <p>Laurens Debackere</p>
+        <p>IDLab, Department of Electronics and Information Systems, Ghent University - imec</p>
+        <p style="text-align: right; padding-right: 2em;"><img src="media/logo_ugent_en_white.svg" height="100" /></p>
+    </header>
+
+    <section class="slide">
+        <!-- Create your first slide -->
+        <h5>Thesis Defense &bullet; 24 June 2022</h5>
+        <h2 class="title">Enforcing Data Protection in Solid:<br/> A Policy-Oriented Architecture</h2>
+        <h4 style="margin: 1em 0 !important">Laurens Debackere</h4 >
+        <img src="media/logo_ugent_en.svg" height="70" style="padding-right: 50px" />
+        <img src="media/imec.svg" height="60" style="padding-bottom: 10px" />
+        <img src="media/idlab.svg" height="40" style="padding-bottom: 15px" />
+    </section>
+    <section class="slide">
+        <h2>Privacy &amp; Data Protection</h2>
+        <div style="text-align: center;">
+            <img height="280"src="media/fundamental-rights.png" alt="Screenshot of articles 6 and 7 of the EU Charter of Fundamental Rights" /><br />
+            <small>From the Charter of Fundamental Rights of the European Union</small>
+        </div>
+        <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+    </section>
+
+    <section class="slide">
+        <h2>Asymmetries of Power</h2>
+        <ul>
+            <li>
+                <b>The GDPR didn't fix everything.</b>
+            </li>
+            <li>
+                Processing, collection and analysis of ever increasing amounts of data
+            </li>
+            <li>
+               <b>Take-it-or-leave-it</b> decisions regarding our personal data
+            </li>
+            <li>
+                Materialized in dark patterns, vague wording and lengthy privacy policies
+            </li>
+            <li>
+                <b>Bilateral protections</b> are needed in order to realize data protection
+            </li>
+        </ul>
+        <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+    </section>
+
+    <section class="slide">
+        <h2>Overview</h2>
+        <ol>
+            <li>An introduction to <a href="https://solidproject.org/">Solid</a>
+                <ul>
+                    <li>What is Solid?</li>
+                    <li>Authorization in Solid</li>
+                </ul>
+            </li>
+            <li>
+                Problem statement
+            </li>
+            <li>
+                An architecture for enforcing data protection in Solid
+            </li>
+            <li>
+                Discussion
+            </li>
+            <li>
+                Conclusion
+            </li>
+        </ol>
+        <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+    </section>
+
+
+
+    <section class="slide">
+        <h2>An introduction to <a href="https://solidproject.org/">the Solid project</a></h2>
+        <div class="columns two">
+            <img src="https://solidproject.org/assets/img/solid-emblem.svg" height="300" />
+            <ul>
+                <li>Restoring end-users' control over their data</li>
+                <li>Brainchild of Sir Tim-Berners Lee<br />(cfr. <a
+                        href="https://webfoundation.org/2017/03/web-turns-28-letter/">Three Challenges for the Web</a>,
+                    2017)</li>
+                <li><b>Goal</b>: Develop a <a href="https://solidproject.org/TR/">specification</a> for decentralized
+                    personal data storage servers (<em>Pods</em>)
+                </li>
+            </ul>
+            <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>What is Solid?</h2>
+        <div class="columns two">
+            <p>
+                <img src="media/data-pods.svg" width="400" style="padding-top: 50px" />
+                <small>Graphic by Ruben Verborgh, from <a href="https://rubenverborgh.github.io/WebFundamentals">Web
+                        Fundamentals</a></small>
+            </p>
+            <ul>
+                <li>A new way of building applications and services on the Web
+                    <ul lang="ru">
+                        <li><b>Separating</b> apps and data</li>
+                    </ul>
+                </li>
+                <li>A new model for data governance
+                    <ul lang="ru">
+                        <li>Returning <b>user choice</b> to the Web</li>
+                    </ul>
+                </li>
+                <li>By building upon existing Web standards</li>
+            </ul>
+            <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+        </div>
+    </section>
+
+
+
+    <section class="slide">
+        <h2>The Solid specification<sup>1</sup></h2>
+        <div class="columns three">
+            <ul>
+                <b><a href="https://www.w3.org/TR/ldp/">Linked Data Platform</a></b>
+                <ul lang="ru">
+                    <li>Read/write-access to resources</li>
+                    <li>Specific affordances for handling Linked Data</li>
+                </ul>
+            </ul>
+            <ul>
+                <b><a href="https://www.w3.org/2005/Incubator/webid/spec/">WebID</a> & <a href="https://solidproject.org/TR/oidc">Solid OIDC</a></b>
+                <ul lang="ru">
+                    <li>Identification and authentication</li>
+                    <li>In a decentralized manner</li>
+                </ul>
+            </ul>
+            <ul>
+                <b><a href="https://solidproject.org/TR/wac">Web Access Control</a></b>
+                <ul lang="ru">
+                    <li>Define Access Control policy over resources</li>
+                    <li>Based on Access Control Lists</li>
+                    <li>Expressed as Linked Data</li>
+                </ul>
+            </ul>
+            <small><sup>1</sup>: Based on the <a href="https://solidproject.org/TR/2021/protocol-20211217">Solid
+                    Protocol, version 0.9</a></small>
+            <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Authorization in Solid: Web Access Control</h2>
+        <div class="columns" style="grid-template-columns: 1.75fr .25fr;">
+            <ul>
+                <b>Uses concept of WebID to authorize access to resources</b>
+                <li>Access control rules at Web Scale</li>
+                <li>Works reasonably well in social interactions</li>
+                <b>Authorization on single resource or folder (container)</b>
+                <li>Similar to sharing features in e.g. Google Drive, Dropbox, ...</li>
+                <li>Inheritance of permissions</li>
+            </ul>
+            <img src="media/user-lock-solid.svg" class="icon" />
+            <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Authorization in Solid: Limitations</h2>
+        <div class="columns" style="grid-template-columns: 1.75fr .25fr;">
+            <ul>
+                <li>IRIs to identify resources and authorized parties.
+                    <ul>
+                        <li>Resource naming strategy is mostly <b>arbitrary</b> (developer's choice)</li>
+                        <li>How does one verify WebID of an agent? (cfr. <b>phishing</b>)</li>
+                    </ul>
+                </li>
+                <li>Inheritance mechanism
+                    <ul>
+                        <li>Can be <b>counter-intuitive</b></li>
+                        <li>Lead to <b>unintended</b> information disclosure</li>
+                    </ul>
+                </li>
+                <li>Ad-hoc nature of permissions &#8658; <b>increase in complexity</b> for end-user</li>
+            </ul>
+            <img src="media/circle-exclamation-solid.svg" class="icon" />
+            <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+        </div>
+    </section>
+    <section class="slide">
+        <h2>Web Access Control: Example</h2>
+        <pre>
+            <code>@prefix acl: &lt;http://www.w3.org/ns/auth/acl#&gt;.</code>
+            <code># Your doctor has Read & Write Access to your Medical Records</code>
+            <code>&lt;#records&gt; a acl:Authorization;</code>
+            <code>    acl:agent <mark>&lt;https://nhs.gov.uk/id/123#me&gt;</mark>;</code>
+            <code>    acl:default <mark>&lt;./MedicalRecords/&gt;</mark>;</code>
+            <code>    acl:mode acl:Read, acl:Write.</code>
+        </pre>
+        <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+    </section>
+
+
+    <section class="slide">
+        <h2>Problem Statement</h2>
+        <ul>
+            <b>Web Access Control as an Access Control policy language</b>
+            <li>Suited for simple use cases</li>
+            <li>Lacks expressivity & interpretability in data processing applications</li>
+            <b>Limited research into implemention of data sharing patterns in Solid</b>
+            <li>With required legal and technical safeguards</li>
+            <b>Prior research<sup>1, 2</sup> on applying more expressive policy languages in Solid
+                (i.e. <a href="https://ieeexplore.ieee.org/document/9583717">ODRL</a>, <a
+                    href="https://www.scitepress.org/Link.aspx?doi=10.5220/0009143206550662">SPECIAL</a>, ...)</b>
+            <li>Further work needed to integrate these languages into Solid</li>
+            </li>
+        </ul>
+        <small style="font-size: .3em"><sup>1</sup>: Giray Havur, Miel Vander Sande, and Sabrina Kirrane. 2020. Greater Control and Transparency in Personal Data Processing. 655–662. https://doi.org/10.5220/0009143206550662</small>
+        <small style="font-size: .3em"><sup>2</sup>: Beatriz Esteves, Harshvardhan J. Pandit, and Víctor Rodríguez-Doncel. 2021.
+            ODRL Profile for Expressing Consent through Granular Access Control Policies in Solid. In 2021 IEEE European Symposium on Security and Privacy Workshops (EuroSPW).298–306. https://doi.org/10.1109/EuroSPW54576.2021.00038</small>
+        <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+    </section>
+
+    <section class="slide">
+        <h2>Research Objective</h2>
+        <div class="columns" style="grid-template-columns: 1.75fr .25fr;">
+            <ul>
+                <b>Identifying shortcomings of Solid's existing Access Control mechanism</b>
+                <li>And specifically how it is used by developers.</li>
+                <b>Reference architecture for complex data processing applications in Solid</b>
+                <li>Reconciling end-user and legal requirements for data processing</li>
+                <li>Through abstractions built on Solid's existing authorization model</li>
+                <b>Implementation of this architecture</b>
+                <li>Assessing its practical feasibility &amp; performance</li>
+            </ul>
+            <img src="media/magnifying-glass-solid.svg" class="icon" />
+            <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2 style="margin-bottom: 10px;">Related Work</h2>
+        <ul>
+            <b><a href="https://www.w3.org/ns/dpv">Data Privacy Vocabulary</a></b>
+            <li>Linked Data vocabulary modeling information related to processing of personal data</li>
+            <li>Based on requirements from Data Protection regulations</li>
+            <b><a href="https://www.w3.org/TR/odrl-model/">ODRL: The Open Digital Rights Language</a></b>
+            <li>Language for expressing policies using deontic concepts (permission, prohibitions, obligation).</li>
+            <li><a href="https://ieeexplore.ieee.org/document/9583717">ODRL profile</a> was proposed, as an extension to Solid's Access Control mechanism</li>
+            <b><a href="https://specialprivacy.ercim.eu/">SPECIAL: The SPECIAL policy language</a></b>
+            <li>Research project with the goal of reconciling big data applications with regulatory requirements</li>
+        </ul>
+        <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+    </section>
+
+    <section class="slide">
+        <h2>Architecture: Background</h2>
+        <ul>
+            <li><a href="https://github.com/solid/data-interoperability-panel">Solid's Data Interoperability Panel</a>
+                <ul>
+                    <li>Objective of enabling <b>safe</b> and <b>effective</b> interoperability</li>
+                    <li>Through <b>abstraction</b> of resource organization (<a href="https://shapetrees.org/TR/specification/">Shape Trees</a>)</li>
+                    <li>And by <b>standardizing</b> the mechanics of requesting and granting access (<a href="https://solid.github.io/data-interoperability-panel/specification/">Application Interop</a>)</li>
+                    <li>Introduces the concept of a trusted <b>"Authorization Agent"</b></li>
+                </ul>
+            </li>
+        </ul>
+        <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+    </section>
+
+
+    <section class="slide">
+        <h2>Architecture: Vision</h2>
+        <!-- Two columns highlighting the different realms-->
+        <div class="columns two">
+            <ul>
+                <b>End-User Realm</b>
+                <li>Governed by <b>Access Management apps</b></li>
+                <li><b>Higher-level abstractions</b> for classifying data<br />(e.g. Personal Data Categories)</li>
+                <li><b>Validating</b> data processing request coming from data controller</li>
+                <li>Decision is stored in the subject's Solid Pod</li>
+            </ul>
+            <ul>
+                <b>Technical Realm</b>
+                <li>Governed by the <b>Authorization Agent</b></li>
+                <li>Resource organization using <b>Shape Trees</b></li>
+                <li>Handles <b>access needs</b> of specific agents</li>
+                <li>Based on <b>prior approval</b> through Access Management apps</li>
+            </ul>
+            <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2 style="margin-bottom:10px">Architecture: Proposal</h2>
+        <div class="columns" style="grid-template-columns: 1fr .6fr;">
+            <ul>
+                <li><b>Access Management app</b> delivers Processing Grant
+                    <ul>
+                        <li>Matching against preferences, legal requirements, ...</li>
+                    </ul>
+                </li>
+                <li>Central: <b>Data Subject's Solid Server</b>
+                    <ul>
+                        <li>Personal data organized using Shape Trees</li>
+                        <li>Processing Grants by the Access Management app</li>
+                    </ul>
+                </li>
+                <li><b>Authorization Agent</b> receives concrete Access Needs
+                    <ul>
+                        <li>In terms of Shape Trees</li>
+                        <li>Matches these against Processing Grants</li>
+                    </ul>
+                </li>
+            </ul>
+            <img src="media/overview.png" height="400" />
+            <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+        </div>
+        <!-- Graphic of the proposed architecture -->
+    </section>
+
+    <section class="slide">
+        <h2>Implementation</h2>
+        <!-- Highlight modular UMA AS, CSS support, SAI Authorization-->
+        <ul><li>Modifications to the Community Solid Server</li>
+            <li>Implementation of a <b>modular</b> UMA Authorization Service<ul>
+                <li>Using <a href="https://componentsjs.readthedocs.io/">Components.JS</a> Dependency Injection</li>
+                <li>Capable of supporting any type of authentication &amp; authorization mechanism</li>
+            </ul></li>
+            <li>Development of authorization logic based on the Application Interoperability specification<ul>
+                <li>Enabling <b>"Shape Tree"-based authorization</b></li>
+            </ul></li>
+            <li>
+                Completed by an Authorization Agent allowing for <b>Data Discovery</b>
+            </li>
+    </ul>
+    <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+    </section>
+
+    <section class="slide">
+        <h2 class="unset-margin-bottom">Discussion: Architecture</h2>
+        <ul>
+            <li>Avoids introduction of legal or business concepts into low-level authorization mechanism
+                <ul>
+                    <li><b>Layered abstractions</b> on top of Access Control</li>
+                    <li><b>Reduced</b> assumptions on features supported by Solid Pod</li>
+                </ul>
+            </li>
+            <li>Efficiency of evaluating policies
+                <ul>
+                    <li>Introduction of an <b>out-of-band</b> negotiation step</li>
+                    <li>No additional policy evaluation required during requests</li>
+                </ul>
+            </li>
+            <li>However, <b>challenges</b> still exist
+                <ul>
+                    <li>Defining a suitable policy language, user interface for preferences &amp; policies, ...</li>
+                </ul>
+            </li>
+        </ul>
+        <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+    </section>
+
+    
+    <section class="slide">
+        <h2 class="unset-margin-bottom">Discussion: Implementation</h2>
+        <ul>
+            <li>Limited to current Application Interoperability specification
+                <ul>
+                    <li><b>Lacks formal specification</b> for some interactions with Authorization Agent</li>
+                </ul>
+            </li>
+            <li>Introduction of UMA Authorization Service<ul>
+                <li>Allows for <b>cleaner separation of concerns</b></li>
+                <li>At the cost of <b>additional request latency</b></li>
+                <li>Could have significant impact in other areas as well.</li>
+            </ul></li>
+            <li>Authorizations based on SAI<ul>
+                <li>Technically feasible, however performance is heavily dependent on amount of data</li>
+            </ul>
+            </li>
+        </ul>
+        <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+
+        </section>
+        <section class="slide">
+            <h2>Performance of SAI Authorization</h2>
+            <div style="text-align: center;">
+            <img src="media/plots.png" height="350" /><br />
+            <small>Limited experiment run on CSS v4.0.1 / Node.JS 16.4.0 over 250 requests</small>
+        </div>
+            <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+        </section>
+    
+
+    <section class="slide">
+        <h2>Conclusion</h2>
+        <div class="columns" style="grid-template-columns: 1.5fr .5fr;">
+        <ul>
+            <li>Architecture as a <b>foundation</b> for research into <b>access control</b> and <b>data usage policies</b></li>
+            <li>Built on top of the Solid specification through <b>abstractions</b></li>
+            <li>And some of the more recent <b>community proposals</b></li>
+            <li>Further work is needed from technical, legal and user experience perspectives.</li>
+        </ul>
+        <img src="media/lightbulb-solid.svg" class="icon"/>
+
+        <img class="place bottom right logo-slide" src="media/logo_ugent_en.svg" alt="Ghent University">
+    </div>
+    </section>
+    <section class="slide" style="padding-top: 20px">
+        <div style="text-align: center;">
+        <video src="media/demo.mp4" height="500" type="video/mp4" autoplay />
+    </div>
+    </section>
+
+    <section class="slide">
+        <h2>Enforcing Data Protection in Solid:<br/> A Policy-Oriented Architecture</h2>
+        <div class="columns two">
+            <p><b>Laurens Debackere</b></br>
+                <em>Ghent University - imec</em><br />
+                <b>Mail:</b> Laurens.Debackere@UGent.be
+            </p>
+            <p><b>Slides available online at:</b><br /> <a
+                    href="https://laurensdeb.github.io/slides-2022-PIDSKG/">laurensdeb.github.io/slides-2022-PIDSKG/</a>
+                <span>
+                    <img src="media/logo_ugent_en.svg" height="70" style="padding-right: 50px; padding-top: 20px;" />
+                    <img src="media/imec.svg" height="50" style="padding-bottom: 10px" />
+                    <img src="media/idlab.svg" height="40" style="padding-bottom: 10px" />
+            </p>
+            </span>
+        </div>
+    </section>
+
+    <footer class="badge">
+        <a href="https://github.com/laurensdeb/slides-2022-PIDSKG/">Find me on Github</a>
+    </footer>
+
+    <p>This research is supported by <b>SolidLab Vlaanderen</b> (Flemish Government, EWI and RRF project
+        VV023/10).</p>
+
+
+    <div class="progress"></div>
+
+    <script src="shower/shower.js"></script>
+    <!-- Copyright © 2022 UGent -->
+
+</body>
+
+</html>
